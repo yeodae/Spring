@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.test1.mapper.StudentMapper">
+	<select id="selectStudentList" parameterType="hashmap" resultType="com.example.test1.model.Student">
+		SELECT
+			S.STU_NO,
+			STU_NAME,
+			STU_DEPT,
+			STU_GRADE,
+			STU_CLASS,
+			STU_GENDER,
+			STU_HEIGHT,
+			STU_WEIGHT,
+			AVG_GRADE
+		FROM STUDENT S
+		INNER JOIN (
+			SELECT AVG(ENR_GRADE)AS AVG_GRADE, S.STU_NO
+		    FROM STUDENT S
+		    INNER JOIN ENROL E ON S.STU_NO = E.STU_NO
+		    GROUP BY S.STU_NO
+		) A ON S.STU_NO = A.STU_NO
+		
+		WHERE 1=1		
+		<if test="keyword !='' and keyword != null"> 			
+		AND (STU_NAME LIKE '%' || #{keyword} || '%' 
+			OR STU_DEPT LIKE '%' || #{keyword} || '%')
+		</if>
+			<if test="dept !='' and dept != null"> 
+				AND STU_DEPT = #{dept}
+			</if>
+			<if test="year !='' and year != null"> 
+				AND S.STU_NO LIKE #{year} || '%'
+			</if>
+			<if test="stuNo !='' and stuNo != null"> 
+				AND TRIM(S.STU_NO) = #{stuNo}
+			</if>
+			
+		ORDER BY AVG_GRADE DESC
+	</select>
+	
+	<select id="selectEmpList" parameterType="hashmap" resultType="com.example.test1.model.Emp">
+		SELECT * 
+		FROM EMP
+		
+	</select>
+	
+	<select id="selectSubjectList" parameterType="hashmap" resultType="com.example.test1.model.Subject">
+		SELECT * 
+		FROM SUBJECT
+		
+	</select>
+	
+	<select id="selectStudentInfo" parameterType="hashmap" resultType="com.example.test1.model.Student">
+		SELECT * 
+		FROM STUDENT
+		WHERE STU_NO = #{stuNo}
+	</select>
+	
+	<delete id="deleteStudent" parameterType="hashmap">
+		DELETE FROM STUDENT WHERE STU_NO = #{stuNo}
+	</delete>
+	<delete id="deleteEmp" parameterType="hashmap">
+		DELETE FROM EMP WHERE EMPNO = #{empno}
+	</delete>
+	
+	<update id="updateEmp" parameterType="hashmap">
+		UPDATE EMP
+		SET
+			ENAME = #{ename},
+			JOB = #{job},
+			SAL = #{sal}
+		WHERE EMPNO = #{empno}
+	</update>
+	
+	
+	<select id="selectlastStudentList" parameterType="hashmap" resultType="com.example.test1.model.Student2">
+		SELECT * 
+		FROM STUDENT2
+		ORDER BY STUDNO ASC
+	</select>
+	<delete id="deletelastStudent" parameterType="hashmap">
+		DELETE FROM STUDENT2 WHERE STUDNO = #{studNo}
+	</delete>
+
+</mapper>
