@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="js/jquery.js"></script>
+<script src="../js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
@@ -12,6 +12,9 @@
 </head>
 <body>
 <div id="app">
+	<div>학번 : {{info.stuNo}}</div>
+	<div>이름 : {{info.stuName}}</div>
+	<div>학과 : {{info.stuDept}}</div>
 </div>
 </body>
 </html>
@@ -19,20 +22,20 @@
 var app = new Vue({
 	el : '#app',
 	data : {
-		list : []
+		info : {},
+		stuNo : "${map.stuNo}"
 	},// data
 	methods : {
 		fnGetList : function(){
             var self = this;
-            var nparmap = {};
+            var nparmap = {stuNo : self.stuNo};
             $.ajax({
-                url : "subject/list.dox",
+                url : "userInfo.dox",
                 dataType:"json",	
                 type : "POST", 
                 data : nparmap,
                 success : function(data) { 
-                	self.list = data.subList;
-                	console.log(self.list);
+                	self.info = data.info;
                 }
             }); 
         }

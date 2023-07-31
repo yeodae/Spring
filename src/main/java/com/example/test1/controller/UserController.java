@@ -47,7 +47,7 @@ public class UserController {
 	@ResponseBody
 	public String login(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		userService.searchUser(map);
+		resultMap = userService.searchUser(map);
 		return new Gson().toJson(resultMap);
 	}
 }
