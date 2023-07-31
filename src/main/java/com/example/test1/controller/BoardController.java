@@ -19,80 +19,74 @@ import com.google.gson.Gson;
 
 @Controller
 public class BoardController {
-	
 	@Autowired
 	BoardService boardService;
 	
-	@RequestMapping("/board/list.do") //만든 주소명
-    public String day4_4(Model model) throws Exception{
+	@RequestMapping("/board/add.do") 
+    public String join(Model model) throws Exception{
 
-        return "/board-list"; // 파일명
+        return "/board-add";
     }
-	@RequestMapping("/board/add.do") //만든 주소명
-    public String day4_1(Model model) throws Exception{
+	
+	@RequestMapping("/board/list.do") 
+    public String boardList(Model model) throws Exception{
 
-        return "/board-add"; // 파일명
+        return "/board-list";
     }
-	//상세보기 페이지전환
-	@RequestMapping("/board/view.do") //만든 주소명
-    public String view(HttpServletRequest request,Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+	
+	@RequestMapping("/board/view.do") 
+    public String view(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 		request.setAttribute("map", map);
-        return "/board-view"; // 파일명
+        return "/board-view";
     }
-	//게시글 수정
-	@RequestMapping("/board/edit.do") //만든 주소명
-    public String edit(HttpServletRequest request,Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+	
+	@RequestMapping("/board/edit.do") 
+    public String edit(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 		request.setAttribute("map", map);
-        return "/board-edit"; // 파일명
+        return "/board-edit";
     }
 	
 	@RequestMapping(value = "/board/add.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String add(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+	public String userAdd(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		boardService.boardAdd(map);
-		resultMap.put("success", "등록완료");
+		boardService.addBoard(map);
+		resultMap.put("message", "success");
 		return new Gson().toJson(resultMap);
 	}
+	
 	@RequestMapping(value = "/board/list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String boardList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+	public String list(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		List<Board> list = boardService.searchBoardList(map);
 		resultMap.put("boardList", list);
 		return new Gson().toJson(resultMap);
 	}
+	
 	@RequestMapping(value = "/board/remove.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String remove(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		boardService.removeBoard(map);
-		resultMap.put("success", "삭제완료"); //리턴값이 없어 생략 가능
-		return new Gson().toJson(resultMap);
-//	}
-//	@RequestMapping(value = "/board/cnt.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-//	@ResponseBody
-//	public String cnt(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-//		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-//		boardService.updateBoard(map);
-//		resultMap.put("success", "조회수증가");
-//		return new Gson().toJson(resultMap);
-	}
-	@RequestMapping(value = "/board/view.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String boardInfo(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		Board board = boardService.searchBoardInfo(map);
-		resultMap.put("info", board);
-		return new Gson().toJson(resultMap);
-	}
-	@RequestMapping(value = "/board/edit.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String updateBoard(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		boardService.editBoard(map);
-		resultMap.put("success", "수정완료");
 		return new Gson().toJson(resultMap);
 	}
 	
+	
+	@RequestMapping(value = "/board/view.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String view(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		Board board = boardService.searchBoardInfo2(map);
+		resultMap.put("info", board);
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "/board/update.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String boardUp(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		boardService.updateBoard(map);
+		resultMap.put("message", "success");
+		return new Gson().toJson(resultMap);
+	}
 }

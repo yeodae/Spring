@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
 <head>
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<meta charset="UTF-8">
-<title>day2 stuNoflg</title>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
 <style>
 	th, td{
 		padding : 5px 10px;
@@ -17,12 +17,12 @@
 <div id="app">
 	<table border="1">
 		<tr>
-			<th>ì‚¬ë²ˆ</th>
-			<th>ì´ë¦„</th>
-			<th>ì§êµ°</th>
-			<th>ê¸‰ì—¬</th>
-			<th>ì‚­ì œ</th>
-			<th>ìˆ˜ì •</th>
+			<th>»ç¹ø</th>
+			<th>ÀÌ¸§</th>
+			<th>Á÷±º</th>
+			<th>±Ş¿©</th>
+			<th>»èÁ¦</th>
+			<th>¼öÁ¤</th>
 		</tr>
 		<!-- <tr v-for="(item, index) in list">
 			<td>{{item.empno}}</td>
@@ -38,10 +38,10 @@
 				<span v-if="editIndex == index"><input :value="item.sal"></span>
 				<span v-else>{{item.sal}}</span>
 			</td>
-			<td><button @click="fnRemove(item.empno)">ì‚­ì œ</button></td>
+			<td><button @click="fnRemove(item.empno)">»èÁ¦</button></td>
 			<td>
-				<button v-if="editIndex == index" @click="editIndex = index">ì €ì¥</button>
-				<button v-else @click="editIndex = index">ìˆ˜ì •</button>
+				<button v-if="editIndex == index" @click="editIndex = index">ÀúÀå</button>
+				<button v-else @click="editIndex = index">¼öÁ¤</button>
 			</td>
 		</tr> -->
 		
@@ -52,19 +52,19 @@
 				<td>{{item.ename}}</td>
 				<td>{{item.job}}</td>
 				<td>{{item.sal}}</td>
-				<td><button @click="fnRemove(item.empno)">ì‚­ì œ</button></td>
-				<td><button @click="item.editFlg = true">ìˆ˜ì •</button></td>
+				<td><button @click="fnRemove(item.empno)">»èÁ¦</button></td>
+				<td><button @click="item.editFlg = true">¼öÁ¤</button></td>
 			</template>
 			
 			<template v-else>
 				<td>{{item.empno}}</td>
-				<td><input :value="item.ename"></td>
-				<td><input :value="item.job"></td>
-				<td><input :value="item.sal"></td>
-				<td><button @click="fnRemove(item.empno)">ì‚­ì œ</button></td>
+				<td><input v-model="item.ename"></td>
+				<td><input v-model="item.job"></td>
+				<td><input v-model="item.sal"></td>
+				<td><button @click="fnRemove(item.empno)">»èÁ¦</button></td>
 				<td>
-					<button @click="fnEdit(item)">ì €ì¥</button>
-					<button @click="item.editFlg = false">ì·¨ì†Œ</button>
+					<button @click="fnEdit(item)">ÀúÀå</button>
+					<button @click="item.editFlg = false">Ãë¼Ò</button>
 				</td>
 			</template>
 		</tr>
@@ -96,7 +96,7 @@ var app = new Vue({
         },
         fnRemove : function(empno){
         	var self = this;
-        	if(!confirm("ì •ë§ ì‚­ì œí• ê±°ëƒ")){
+        	if(!confirm("Á¤¸» »èÁ¦ÇÒ°Å³Ä")){
         		return;
         	}
             var nparmap = {empno : empno};
@@ -106,34 +106,32 @@ var app = new Vue({
                 type : "POST", 
                 data : nparmap,
                 success : function(data) { 
-                	alert("ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
+                	alert("»èÁ¦µÇ¾ú½À´Ï´Ù.");
                 	self.fnGetList();
                 }
             });
-        },
-        fnEdit : function(item){
-                var self = this;
-                if(!confirm("ì •ë§ ìˆ˜ì •í• ê±°ëƒ")){
-            		return;
-            	}
-                var nparmap = item; // itemìì²´ê°€ listì•ˆì—ìˆëŠ” ë§µì´ê¸°ë•Œë¬¸ì— ë‹¤ ë„˜ì–´ê°„ë‹¤.
-                $.ajax({
-                    url : "emp/edit.dox",
-                    dataType:"json",	
-                    type : "POST", 
-                    data : nparmap,
-                    success : function(data) { 
-                    	self.list = data.empList;
-                    	console.log(self.list);
-                    }
-                }); 
+        }
+        , fnEdit : function(item){
+        	var self = this;
+        	if(!confirm("Á¤¸» ¼öÁ¤ÇÒ°Å³Ä")){
+        		return;
+        	}
+            var nparmap = item;
+            $.ajax({
+                url : "emp/edit.dox",
+                dataType:"json",	
+                type : "POST", 
+                data : nparmap,
+                success : function(data) { 
+                	alert("¼öÁ¤µÇ¾ú½À´Ï´Ù.");
+                	self.fnGetList();
+                }
+            });
         }
 	}, // methods
 	created : function() {
 		var self = this;
 		self.fnGetList();
 	}// created
-	
 });
 </script>
-â€‹

@@ -12,12 +12,11 @@ import com.example.test1.model.Student;
 
 @Service
 public class EnrolServiceImpl implements EnrolService{
-	
 	@Autowired
 	EnrolMapper enrolMapper;
 
 	@Override
-	public List<Enrol> searchEnrolList(HashMap<String, Object> map) {
+	public List<Enrol> selectEnrolList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		return enrolMapper.selectEnrolList(map);
 	}
@@ -29,20 +28,21 @@ public class EnrolServiceImpl implements EnrolService{
 	}
 
 	@Override
-	public HashMap<String, Object> enrolInfo(HashMap<String, Object> map) {
+	public Student searchEnrolInfo(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		Student stu = enrolMapper.searchEnrolInfo(map);
-		resultMap.put("info", stu);
-		return resultMap;
+		return enrolMapper.selectEnrolInfo(map);
 	}
 
 	@Override
-	public int enrolUpdate(HashMap<String, Object> map) {
+	public int editEnrol(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		return enrolMapper.enrolEdit(map);
+		return enrolMapper.updateEnrol(map);
 	}
-	
-	
+
+	@Override
+	public Student searchUserInfo(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return enrolMapper.selectUserInfo(map);
+	}
 
 }

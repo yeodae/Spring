@@ -8,37 +8,40 @@
 	<title>첫번째 페이지</title>
 </head>
 <style>
-
+	table{text-align : center;}
+	.bg {
+		background-color : #eee;
+	}
+	.bg2 {
+		background-color : tomato;
+	}
 </style>
 <body>
 	<div id="app">
-		<div>
-		<div>
-			<span>입학년도 :</span>
-			<label v-for="item in yearList">
-				<input v-model="year" :value ="item" type="radio" name="year">{{item}}
-			</label>
-			<!-- <label><input type="radio" value = "2013" name="year" v-model="selectYear" checked>2013</label>
-			<label><input type="radio" value = "2014" name="year" v-model="selectYear">2014</label>
-			<label><input type="radio" value = "2015" name="year" v-model="selectYear">2015</label> -->
-		</div>
+		<div style="margin: 10px;">
+			<div>
+				<span>입학년도 : </span>
+				<label v-for="item in yearList" >
+					<input v-model="year" :value="item" type="radio" name="year">{{item}}
+				</label>
+			</div>
 			<!-- <select v-model="selectItem">
-	         	<option value="">전체</option>
-	         	<option value="컴퓨터정보">컴퓨터정보</option>
-	         	<option value="기계">기계</option>
-	         	<option value="전기전자">전기전자</option>
-         </select> -->
-         <label>
-				<!-- <select v-model="selectItem">
-					<option value="">::전체::</option>
-					<option v-for="item in deptList" :value="item">{{item}}</option>
-				</select>
-				 -->
-				<select v-model="selectItem" @change="fnGetList()">
-					<option v-for="item in deptList2" :value="item.sub">{{item.name}}</option>
-				</select>
-			</label>
-        <button @click="fnGetList()">검색</button>
+				<option value="">:: 전체 ::</option>
+				<option value="컴퓨터정보">컴퓨터정보</option>
+				<option value="기계">기계</option>
+				<option value="전기전자">전기전자</option>
+			</select>
+			
+			<select v-model="selectItem">
+				<option value="">:: 전체 ::</option>
+				<option v-for="item in deptList" :value="item">{{item}}</option>
+			</select> -->
+			
+			<select v-model="selectItem" @change="fnGetList">
+				<option v-for="item in deptList2" :value="item.sub">{{item.name}}</option>
+			</select>
+
+			<button @click="fnGetList">검색</button>
 		</div>
 		<table border="1">
 			<tr>
@@ -49,8 +52,8 @@
 				<th>학과</th>
 				<th>키</th>
 			</tr>
-			<tr v-for="(item, index) in list">
-				<td><input type="radio" name="stuNo" v-model="stuNo" :value="item.stuNo"></td>
+			<tr v-for="(item, index) in list" >
+				<td><input type="radio" v-model="stuNo" :value="item.stuNo" name="stuNo"></td>
 				<td>{{index + 1}}</td>
 				<td>{{item.stuNo}}</td>
 				<td>{{item.stuName}}</td>
@@ -58,9 +61,7 @@
 				<td>{{item.stuHeight}}</td>
 			</tr>
 		</table>
-		<div>
-			<button @click="fnStuSearch">학생검색</button>
-		</div>
+		<button @click="fnStuSearch">학생검색</button>
 	</div>
 </body>
 </html>
@@ -70,12 +71,10 @@ var app = new Vue({
     data : {
 		list : [],
 		selectItem : "",
-		search : "",
-		selectYear : "",
-		yearList : [2013, 2014, 2015],
 		year : "",
-		deptList : ["컴퓨터정보", "기계", "전기전자"],
-		deptList2 : [
+		yearList : [2013, 2014, 2015],
+		deptList : ["컴퓨터정보", "전기전자", "기계"],
+		deptList2 : [	
 						{sub : "", name : ":: 전체 ::"}, 
 						{sub : "컴퓨터정보", name : "컴퓨터정보"},
 						{sub : "전기전자", name : "전기전자"},
@@ -86,22 +85,18 @@ var app = new Vue({
     , methods: {
     	fnGetList : function(){
             var self = this;
-            var nparmap = {keyword : "", dept : self.selectItem, year : self.year};
-            
-           /*  if(self.userId==""){
-            	alert();
-            } */
-            
+            var nparmap = {dept : self.selectItem, year : self.year};
             $.ajax({
                 url : "list.dox",
                 dataType:"json",	
                 type : "POST", 
                 data : nparmap,
                 success : function(data) { 
-                	 self.list = data.list;
+                	self.list = data.list;
                 }
             }); 
         },
+        
         fnStuSearch : function(){
             var self = this;
             var nparmap = {stuNo : self.stuNo};
@@ -111,8 +106,8 @@ var app = new Vue({
                 type : "POST", 
                 data : nparmap,
                 success : function(data) { 
-                	 self.list = data.list;
-                	 self.stuNo = ""; // 초기화시킨다.
+                	self.list = data.list;
+                	self.stuNo = "";
                 }
             }); 
         }

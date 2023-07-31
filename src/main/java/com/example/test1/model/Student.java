@@ -13,6 +13,72 @@ public class Student {
 	private String stuHeight;
 	private String stuWeight;
 	private String enrGrade;
-	private String avgGrade;
+	public String getStuNo() {
+		return stuNo;
+	}
+	public void setStuNo(String stuNo) {
+		this.stuNo = stuNo;
+	}
+	public String getStuName() {
+		return stuName;
+	}
+	public void setStuName(String stuName) {
+		this.stuName = stuName;
+	}
+	public String getStuDept() {
+		return stuDept;
+	}
+	public void setStuDept(String stuDept) {
+		this.stuDept = stuDept;
+	}
+	public String getStuGrade() {
+		return stuGrade;
+	}
+	public void setStuGrade(String stuGrade) {
+		this.stuGrade = stuGrade;
+	}
+	public String getStuClass() {
+		return stuClass;
+	}
+	public void setStuClass(String stuClass) {
+		this.stuClass = stuClass;
+	}
+	public String getStuGender() {
+		return stuGender;
+	}
+	public void setStuGender(String stuGender) {
+		this.stuGender = stuGender;
+	}
+	public String getStuHeight() {
+		return stuHeight;
+	}
+	public void setStuHeight(String stuHeight) {
+		this.stuHeight = stuHeight;
+	}
+	public String getStuWeight() {
+		return stuWeight;
+	}
+	public void setStuWeight(String stuWeight) {
+		this.stuWeight = stuWeight;
+	}
+	public String getEnrGrade() {
+		return enrGrade;
+	}
+	public void setEnrGrade(String enrGrade) {
+		this.enrGrade = enrGrade;
+	}
+	public double getAvgGrade() {
+		return avgGrade;
+	}
+	public void setAvgGrade(double avgGrade) {
+		this.avgGrade = avgGrade;
+	}
+	public boolean isBanYn() {
+		return banYn;
+	}
+	public void setBanYn(boolean banYn) {
+		this.banYn = banYn;
+	}
+	private double avgGrade;
 	private boolean banYn = false;
 }

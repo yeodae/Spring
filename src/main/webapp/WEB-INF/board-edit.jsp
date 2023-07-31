@@ -6,29 +6,31 @@
 <script src="../js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <meta charset="EUC-KR">
-<title>day3</title>
+<title>Insert title here</title>
 <style>
-	
 </style>
 </head>
 <body>
 <div id="app">
-		<div>제목 : <input v-model="info.title"></div>
-		<div>내용 : <textarea rows="10" cols="30" v-model="info.content"></textarea></div>
-		<div><button @click="fnEdit">등록</button>
-			<button @click="back">취소</button></div>
+	<div>
+		<label>제목 : <input v-model="info.title"></label>
+	</div>
+	<div>
+		<textarea rows="10" cols="30" v-model="info.content"></textarea>
+	</div>
+	<button @click="fnAdd(info)">수정</button>
 </div>
 </body>
 </html>
-<script type="text/javascript">
-var app = new Vue({ 
-    el: '#app',
-    data : {
-		idx : "${map.idx}",
-		info : {}
-    }, 
-    methods: {
-    	fnGetList : function(){
+<script>
+var app = new Vue({
+	el : '#app',
+	data : {
+		info : {},
+		idx : "${map.idx}"
+	},// data
+	methods : {
+		fnGetList : function(){
             var self = this;
             var nparmap = {idx : self.idx};
             $.ajax({
@@ -36,38 +38,29 @@ var app = new Vue({
                 dataType:"json",	
                 type : "POST", 
                 data : nparmap,
-                success : function(data) {
+                success : function(data) { 
                 	self.info = data.info;
                 }
             }); 
         },
-        fnEdit : function(){
+		fnAdd : function(info){
             var self = this;
-            if(self.title==''){
-            	alert("제목을 입력하세요.");
-            	return;
-            }
-            if(self.content==''){
-            	alert("내용을 입력하세요.");
-            }
-            var nparmap = {title : self.info.title, content : self.info.content, idx : self.idx};
+            //var nparmap = {title : self.title, content : self.content};
+            var nparmap = info;
             $.ajax({
-                url : "edit.dox",
+                url : "/board/update.dox",
                 dataType:"json",	
                 type : "POST", 
                 data : nparmap,
-                success : function(data) {
-	                alert("수정 완료");
+                success : function(data) { 
+                	alert("수정 완료");
                 }
             }); 
-        },
-        back : function(){
-            location.href = "list.do";
-         },
-    }   /* methods 끝 */
-    , created: function () {
-    	var self = this;
-    	self.fnGetList();
-	}
+        }
+	}, // methods
+	created : function() {
+		var self = this;
+		self.fnGetList();
+	}// created
 });
 </script>

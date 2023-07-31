@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.example.test1.mapper.StudentMapper;
 import com.example.test1.model.Emp;
 import com.example.test1.model.Student;
-import com.example.test1.model.Student2;
 import com.example.test1.model.Subject;
 
 @Service
@@ -28,9 +27,9 @@ public class StudentServiceImpl implements StudentService{
 	public List<Emp> searchEmpList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		List<Emp> list = studentMapper.selectEmpList(map);
-		return list; // 생략가능
+		return list;
 	}
-	
+
 	@Override
 	public List<Subject> searchSubjectList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -43,8 +42,14 @@ public class StudentServiceImpl implements StudentService{
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		Student stu = studentMapper.selectStudentInfo(map);
 		resultMap.put("info", stu);
-		resultMap.put("message", "성공");
+		resultMap.put("message", "검색 성공");
 		return resultMap;
+	}
+
+	@Override
+	public Student searchStudentInfo2(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return studentMapper.selectStudentInfo(map);
 	}
 
 	@Override
@@ -60,23 +65,8 @@ public class StudentServiceImpl implements StudentService{
 	}
 
 	@Override
-	public int updateEmp(HashMap<String, Object> map) {
+	public int editEmp(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		return studentMapper.updateEmp(map);
 	}
-
-	@Override
-	public List<Student2> searchlastStudentList(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		return studentMapper.selectlastStudentList(map);
-	}
-
-	@Override
-	public int removelastStudent(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		return studentMapper.deletelastStudent(map);
-	}
-	
-	
-
 }

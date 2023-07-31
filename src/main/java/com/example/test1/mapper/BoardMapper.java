@@ -9,17 +9,15 @@ import com.example.test1.model.Board;
 
 @Mapper
 public interface BoardMapper {
-	// 게시글 등록
 	int insertBoard(HashMap<String, Object> map);
-	// 보드 테이블 조회
-	List<Board> selectBoardList(HashMap<String, Object> map);
-	// 게시글 삭제
-	int deleteBoard(HashMap<String, Object> map);
-	// 조회수
-	int cntBoard(HashMap<String, Object> map);
-	// 게시글 상세
-	Board selectBoardInfo(HashMap<String, Object> map);
-	// 게시글 수정
-	int updateBoard(HashMap<String, Object> map);
 	
+	List<Board> selectBoardList(HashMap<String, Object> map);
+	
+	int deleteBoard(HashMap<String, Object> map);
+	
+	Board selectBoardInfo(HashMap<String, Object> map);
+	
+	int updateBoardCnt(HashMap<String, Object> map);
+	
+	int updateBoardInfo(HashMap<String, Object> map);
 }

@@ -3,22 +3,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="../js/jquery.js"></script>
+<script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <meta charset="EUC-KR">
-<title>Insert title here</title>
+<title>로그인페이지</title>
 <style>
 </style>
 </head>
 <body>
 <div id="app">
+	<h1>로그인입니다.</h1>
+	<div><label>아이디 : <input v-model="userId"></label></div>
+	<div><label>패스워드 : <input type="password" v-model="pwd"></label></div>
 	<div>
-		<label>제목 : <input v-model="title"></label>
+		<button @click="fnLogin">로그인</button>
+		<button>회원가입</button>
 	</div>
-	<div>
-		<textarea rows="10" cols="30" v-model="content"></textarea>
-	</div>
-	<button @click="fnAdd">등록</button>
 </div>
 </body>
 </html>
@@ -26,8 +26,9 @@
 var app = new Vue({
 	el : '#app',
 	data : {
-		title : "",
-		content : ""
+		list : [],
+		userId : "",
+		pwd : ""
 	},// data
 	methods : {
 		fnGetList : function(){
@@ -39,21 +40,28 @@ var app = new Vue({
                 type : "POST", 
                 data : nparmap,
                 success : function(data) { 
-                	self.list = data.boardList;
-                	console.log(self.list);
+                	self.list = data.list;
                 }
             }); 
         },
-		fnAdd : function(){
-            var self = this;
-            var nparmap = {title : self.title, content : self.content};
-            $.ajax({
-                url : "add.dox",
+        fnLogin : function(){
+        	var self = this;
+        	var param = {userId : self.userId, pwd : self.pwd};
+        	$.ajax({
+                url : "login.dox",
                 dataType:"json",	
                 type : "POST", 
-                data : nparmap,
+                data : param, // 위 파람이름과 맞춰주어야 한다.
                 success : function(data) { 
-                	alert("등록 완료");
+                	if(data.success){
+                		alert(data.message);
+                		location.href="main.do";
+                	}else{
+                		alert(data.message);
+                		//아이디가 없을 경우
+                		//비밀번호가 다를 경우
+                	}
+                	//self.list = data.list;
                 }
             }); 
         }

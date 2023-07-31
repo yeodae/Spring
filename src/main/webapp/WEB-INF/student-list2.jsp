@@ -11,26 +11,33 @@
 </style>
 <body>
 	<div id="app">
-		<table border="1" > 
+		<table border="1">
 			<tr>
 				<th>No.</th>
 				<th>학번</th>
 				<th>이름</th>
 				<th>학과</th>
-				<th v-if="Hflg">키</th>
+				<th v-if="heightFlg">키</th>
 			</tr>
-			<tr v-for="(item, index) in list" v-if ="search == '' ? true : item.stuDept == search">
+			<tr v-for="(item, index) in list" v-if="search == ''">
 				<td>{{index + 1}}</td>
 				<td>{{item.stuNo}}</td>
 				<td>{{item.stuName}}</td>
-				<td >{{item.stuDept}}</td>
-				<td v-if="Hflg">{{item.stuHeight}}</td>
+				<td>{{item.stuDept}}</td>
+				<td v-if="heightFlg">{{item.stuHeight}}</td>
+			</tr>
+			<tr v-else-if="item.stuDept == search">
+				<td>{{index + 1}}</td>
+				<td>{{item.stuNo}}</td>
+				<td>{{item.stuName}}</td>
+				<td>{{item.stuDept}}</td>
+				<td v-if="heightFlg">{{item.stuHeight}}</td>
 			</tr>
 		</table>
 		<div>
-			<button @click="Hflg = !Hflg">클릭</button>
+			<button @click="heightFlg = !heightFlg">테이블변경1</button>
 		</div>
-		<div>
+		<div style="margin-bottom : 80px;">
 			<input type="text" v-model="dept">
 			<button @click="search = dept">검색</button>
 		</div>
@@ -42,15 +49,14 @@ var app = new Vue({
     el: '#app',
     data : {
 		list : [],
-		Hflg : true,
+		heightFlg : true,
 		dept : "", // 학과 검색
 		search : ""
-		
     }   
     , methods: {
     	fnGetList : function(){
             var self = this;
-            var nparmap = {keyword : self.search, dept : self.selectItem};
+            var nparmap = {keyword : "", dept : ""};
             $.ajax({
                 url : "list.dox",
                 dataType:"json",	
@@ -62,13 +68,7 @@ var app = new Vue({
 	                self.list = data.list;
                 }
             }); 
-        },
-    	fnDept : function(){
-    		var self = this;
-    		self.contents = "";
-    	
-    		/* self.contents = "안녕하세요"; */
-    	}
+        }
     
     }   /* methods 끝 */
     , created: function () {

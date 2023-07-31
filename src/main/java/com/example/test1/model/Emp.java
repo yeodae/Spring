@@ -1,8 +1,5 @@
 package com.example.test1.model;
 
-//import lombok.Data;
-
-//@Data
 public class Emp {
 	private String empno;
 	private String ename;
@@ -13,13 +10,6 @@ public class Emp {
 	private int comm;
 	private String deptno;
 	private boolean editFlg = false;
-	public boolean isEditFlg() {
-		return editFlg;
-	}
-	public void setEditFlg(boolean editFlg) {
-		this.editFlg = editFlg;
-	}
-	
 	public String getEmpno() {
 		return empno;
 	}
@@ -68,6 +58,11 @@ public class Emp {
 	public void setDeptno(String deptno) {
 		this.deptno = deptno;
 	}
-	
+	public boolean isEditFlg() {
+		return editFlg;
+	}
+	public void setEditFlg(boolean editFlg) {
+		this.editFlg = editFlg;
+	}
 	
 }

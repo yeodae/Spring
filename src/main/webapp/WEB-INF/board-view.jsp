@@ -6,63 +6,54 @@
 <script src="../js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <meta charset="EUC-KR">
-<title>day3</title>
+<title>Insert title here</title>
 <style>
-	
 </style>
 </head>
 <body>
 <div id="app">
-	<div>제목 : {{info.title}}</div>	
-	<div>작성자 : {{info.cuser}}</div>	
-	<div>작성날짜 : {{info.cdatetime}}</div>	
-	<div>내용 : {{info.content}}</div>	
-	<div><button @click="fnUpdate">수정</button></div>
-	<div><button @click="back">뒤로가기</button></div>
+	<div>제목 : {{info.title}}</div>
+	<div>작성자 : {{info.cUser}}</div>
+	<div>작성날짜 : {{info.cdatetime}}</div>
+	<div>내용 : {{info.content}}</div>
+	<div>
+		<button @click="fnEdit">수정하기</button>
+		<button @click="fnBack">되돌아가기</button>
+	</div> 
 </div>
 </body>
 </html>
-<script type="text/javascript">
-var app = new Vue({ 
-    el: '#app',
-    data : {
-		list : [],
+<script>
+var app = new Vue({
+	el : '#app',
+	data : {
+		info : {},
 		idx : "${map.idx}",
-		info : {}
-
-    }   
-    , methods: {
-    	fnGetList : function(){
+		list : []
+	},// data
+	methods : {
+		fnGetList : function(){
             var self = this;
             var nparmap = {idx : self.idx};
             $.ajax({
-                url : "view.dox",
+                url : "/board/view.dox",
                 dataType:"json",	
                 type : "POST", 
                 data : nparmap,
-                success : function(data) {
-	             	self.info = data.info;
-	                console.log(self.info);
+                success : function(data) { 
+                	self.info = data.info;
                 }
             }); 
         },
-        back : function(){
-            location.href = "list.do";
-         },
-        fnUpdate : function(){
+        
+        fnBack : function(){
+        	location.href = "list.do";
+        },
+        
+        fnEdit : function(){
         	var self = this;
-			self.pageChange("edit.do", {idx : self.idx});
-			var nparmap = {idx : self.idx};
-			 $.ajax({
-	                url : "/board/view.dox",
-	                dataType:"json",	
-	                type : "POST", 
-	                data : nparmap,
-	                success : function(data) { 
-	                	self.fnGetList();
-	                }
-	            });
-				},
+        	self.pageChange("edit.do", {idx : self.idx});
+        }, 
         pageChange : function(url, param) {
 			var target = "_self";
 			if(param == undefined){
@@ -90,12 +81,12 @@ var app = new Vue({
 			document.body.appendChild(form);
 			form.submit();
 			document.body.removeChild(form);
-		},
-    
-    }   /* methods 끝 */
-    , created: function () {
-    	var self = this;
-    	self.fnGetList();
-	}
+		}
+      
+	}, // methods
+	created : function() {
+		var self = this;
+		self.fnGetList();
+	}// created
 });
 </script>

@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,60 +8,58 @@
 <meta charset="EUC-KR">
 <title>Insert title here</title>
 <style>
-   table{
-      text-align : center;
-   }
-   td, th {
-      padding : 0px 10px;
-   }
+	table{
+		text-align : center;
+	}
+	td, th {
+		padding : 0px 10px;
+	}
 </style>
 </head>
 <body>
 <div id="app">
-   <table border="1">
-      <tr>
-         <th>ì„ íƒ</th>
-         <th>No.</th>
-         <th>í•™ë²ˆ</th>
-         <th>ì´ë¦„</th>
-         <th>í•™ê³¼</th>
-         <th>í‰ê· ì ìˆ˜</th>
-      </tr>
-      <tr v-for="(item, index) in list" >
-         <td><input type="radio" v-model="stuNo" :value="item.stuNo" name="stuNo"></td>
-         <td>{{index + 1}}</td>
-         <td>{{item.stuNo}}</td>
-         <td>{{item.stuName}}</td>
-         <td>{{item.stuDept}}</td>
-         <td>{{item.avgGrade}}</td>
-      </tr>
-   </table>
-   <button @click="fnSearch">ì„ íƒ</button>
-   <button @click="fnRemove">ì‚­ì œ</button>
+	<table border="1">
+		<tr>
+			<th>¼±ÅÃ</th>
+			<th>No.</th>
+			<th>ÇĞ¹ø</th>
+			<th>ÀÌ¸§</th>
+			<th>ÇĞ°ú</th>
+			<th>Æò±ÕÁ¡¼ö</th>
+		</tr>
+		<tr v-for="(item, index) in list" >
+			<td><input type="radio" v-model="stuNo" :value="item.stuNo" name="stuNo"></td>
+			<td>{{index + 1}}</td>
+			<td>{{item.stuNo}}</td>
+			<td>{{item.stuName}}</td>
+			<td>{{item.stuDept}}</td>
+			<td>{{item.avgGrade}}</td>
+		</tr>
+	</table>
+	<button @click="fnSearch">¼±ÅÃ</button>
+	<button @click="fnRemove">»èÁ¦</button>
 </div>
 </body>
 </html>
 <script>
 var app = new Vue({
-   el : '#app',
-   data : {
-      list : [],
-      info : {},
-      stuNo : ""
-      //ë§µì˜ í˜•íƒœ
-      
-   },// data
-   methods : {
-      fnGetList : function(){
+	el : '#app',
+	data : {
+		list : [],
+		info : {},
+		stuNo : ""
+	},// data
+	methods : {
+		fnGetList : function(){
             var self = this;
             var nparmap = {};
             $.ajax({
                 url : "list.dox",
-                dataType:"json",   
+                dataType:"json",	
                 type : "POST", 
                 data : nparmap,
                 success : function(data) { 
-                   self.list = data.list;
+                	self.list = data.list;
                 }
             }); 
         },
@@ -71,54 +69,55 @@ var app = new Vue({
             var nparmap = {};
             $.ajax({
                 url : "list2.dox",
-                dataType:"json",   
+                dataType:"json",	
                 type : "POST", 
                 data : nparmap,
                 success : function(data) { 
-                   self.list = data.list;
+                	self.list = data.list;
                 }
             }); 
         },
         fnSearch : function(){
-            var self = this;
+        	var self = this;
             var nparmap = {stuNo : self.stuNo};
             $.ajax({
                 url : "stu/info.dox",
-                dataType:"json",   
+                dataType:"json",	
                 type : "POST", 
                 data : nparmap,
                 success : function(data) { 
-                   self.info = data.info;
-                   console.log(self.info)
-                   //ì»¨íŠ¸ë¡¤ëŸ¬ì—ì„œ ë³´ë‚´ì¤Œ(data)
+                	self.info = data.info;
+                	console.log(data);
                 }
-            }); 
-           
+            });
         },
         fnRemove : function(){
-        	  var self = this;
-        	  if(!confirm("ì •ë§ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?")){
-        		  return;
-        	  }
-              var nparmap = {stuNo : self.stuNo};
-              $.ajax({
-                  url : "stu/remove.dox",
-                  dataType:"json",   
-                  type : "POST", 
-                  data : nparmap,
-                  success : function(data) {                   
-                     alert("ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
-                     self.fnGetList();
-                     
-                  }
-              }); 
-             
+        	var self = this;
+        	if(!confirm("Á¤¸» »èÁ¦ÇÒ°Å³Ä")){
+        		return;
+        	}
+            var nparmap = {stuNo : self.stuNo};
+            $.ajax({
+                url : "stu/remove.dox",
+                dataType:"json",	
+                type : "POST", 
+                data : nparmap,
+                success : function(data) { 
+                	alert("»èÁ¦µÇ¾ú½À´Ï´Ù.");
+                	self.fnGetList();
+                }
+            });
         }
-        
-   }, // methods
-   created : function() {
-      var self = this;
-      self.fnGetList();
-   }// created
+	}, // methods
+	created : function() {
+		var self = this;
+		self.fnGetList();
+	}// created
 });
 </script>
+
+
+
+
+
+

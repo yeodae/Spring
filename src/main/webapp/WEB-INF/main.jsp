@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="../js/jquery.js"></script>
+<script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
@@ -12,13 +12,7 @@
 </head>
 <body>
 <div id="app">
-	<div>
-		<label>제목 : <input v-model="title"></label>
-	</div>
-	<div>
-		<textarea rows="10" cols="30" v-model="content"></textarea>
-	</div>
-	<button @click="fnAdd">등록</button>
+	<h1>메인입니다..</h1>
 </div>
 </body>
 </html>
@@ -26,8 +20,7 @@
 var app = new Vue({
 	el : '#app',
 	data : {
-		title : "",
-		content : ""
+		list : [],
 	},// data
 	methods : {
 		fnGetList : function(){
@@ -39,21 +32,7 @@ var app = new Vue({
                 type : "POST", 
                 data : nparmap,
                 success : function(data) { 
-                	self.list = data.boardList;
-                	console.log(self.list);
-                }
-            }); 
-        },
-		fnAdd : function(){
-            var self = this;
-            var nparmap = {title : self.title, content : self.content};
-            $.ajax({
-                url : "add.dox",
-                dataType:"json",	
-                type : "POST", 
-                data : nparmap,
-                success : function(data) { 
-                	alert("등록 완료");
+                	self.list = data.list;
                 }
             }); 
         }

@@ -11,12 +11,11 @@ import com.example.test1.model.Board;
 
 @Service
 public class BoardServiceImpl implements BoardService{
-	
 	@Autowired
 	BoardMapper boardMapper;
 
 	@Override
-	public int boardAdd(HashMap<String, Object> map) {
+	public int addBoard(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		return boardMapper.insertBoard(map);
 	}
@@ -33,23 +32,16 @@ public class BoardServiceImpl implements BoardService{
 		return boardMapper.deleteBoard(map);
 	}
 
-//	@Override 
-//	public int updateBoard(HashMap<String, Object> map) {
-//		// TODO Auto-generated method stub
-//		return boardMapper.cntBoard(map);
-//	} 글을 클릭시 조회수만 증가하면 되므로 이후 과정은 생략이 가능하다.
-
 	@Override
-	public Board searchBoardInfo(HashMap<String, Object> map) {
+	public Board searchBoardInfo2(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		boardMapper.cntBoard(map); // 게시물상세전에>> 조회수증가 쿼리 추가
+		boardMapper.updateBoardCnt(map);
 		return boardMapper.selectBoardInfo(map);
 	}
 
 	@Override
-	public int editBoard(HashMap<String, Object> map) {
+	public int updateBoard(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		return boardMapper.updateBoard(map);
+		return boardMapper.updateBoardInfo(map);
 	}
-	
 }
