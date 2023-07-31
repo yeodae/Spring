@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.test1.mapper.EnrolMapper">
+	<select id="selectEnrolList" parameterType="hashmap" resultType="com.example.test1.model.Enrol">
+		SELECT 
+			AVG(ENR_GRADE) AS AVG_GRADE, 
+			S.STU_NO, 
+			STU_NAME 
+		FROM STUDENT S
+		INNER JOIN ENROL E ON S.STU_NO = E.STU_NO
+		WHERE 1=1
+			<if test="keyword != '' and keyword != null">
+				AND STU_NAME LIKE '%' || #{keyword} || '%'
+			</if>
+		GROUP BY S.STU_NO, STU_NAME
+		<if test="pass != '' and pass != null">
+			<if test='pass == "P"'>
+				HAVING AVG(ENR_GRADE) >= 60
+			</if>
+			<if test='pass == "F"'>
+				<![CDATA[ HAVING AVG(ENR_GRADE) < 60 ]]>
+			</if>
+		</if>
+	</select>
+	
+	<delete id="deleteEnrol" parameterType="hashmap">
+		DELETE FROM STUDENT
+		WHERE STU_NO = #{stuNo}
+	</delete>
+	
+	<select id="selectEnrolInfo" parameterType="hashmap" resultType="com.example.test1.model.Student">
+		SELECT *
+		FROM STUDENT
+		WHERE STU_NO = #{stuNo}
+	</select>
+	
+	<update id="updateEnrol" parameterType="hashmap">
+		UPDATE STUDENT
+		SET
+			STU_NAME = #{stuName}
+		WHERE STU_NO = #{stuNo}
+	</update>
+	
+	<select id="selectUserInfo" parameterType="hashmap" resultType="com.example.test1.model.Student">
+		SELECT *
+		FROM STUDENT
+		WHERE STU_NO = #{stuNo}
+	</select>
+</mapper>
