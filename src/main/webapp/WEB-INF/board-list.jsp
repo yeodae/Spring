@@ -44,7 +44,7 @@
 			<td>{{item.cdatetime}}</td>
 		</tr>
 	</table>
-	<div><button @click="fnRemove">삭제</button></div>
+	<div><button v-if='status=="A"' @click="fnRemove">삭제</button></div>
 	<div><button @click="fnMove">글쓰기</button></div>
 </div>
 </body>
@@ -55,7 +55,8 @@ var app = new Vue({
 	data : {
 		list : [],
 		keyword : "",
-		idx : ""
+		idx : "",
+		status : "${sessionStatus}"
 	},// data
 	methods : {
 		fnGetList : function(){

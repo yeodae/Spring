@@ -14,12 +14,37 @@
 		WHERE U_ID = #{userId}
 	</select>
 	
-	
-	
-	<select id="selectUser" parameterType="hashmap" resultType="int">
-		SELECT COUNT(*) AS CNT
+	<select id="selectUser" parameterType="hashmap" resultType="com.example.test1.model.User">
+		SELECT *
 		FROM TBL_USER
 		WHERE U_ID = #{userId} AND PWD = #{pwd}
 	</select>
+	
+	<select id="selectUserList" parameterType="hashmap" resultType="com.example.test1.model.User">
+		SELECT *
+		FROM TBL_USER
+		WHERE STATUS = 'U'
+	</select>
+	
+	<update id="updateUserCnt" parameterType="hashmap">
+		UPDATE TBL_USER
+		SET
+			CNT = CNT+1
+		WHERE U_ID = #{userId}
+	</update>
+	
+	<update id="resetUserCnt" parameterType="hashmap">
+		UPDATE TBL_USER
+		SET
+			CNT = 0
+		WHERE U_ID = #{userId}
+	</update>
+	
+	<update id="updateUserBan" parameterType="hashmap">
+		UPDATE TBL_USER
+		SET
+			BANYN = #{banyn}
+		WHERE U_ID = #{userId}
+	</update>
 	
 </mapper>

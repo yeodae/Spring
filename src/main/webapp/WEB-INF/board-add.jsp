@@ -27,7 +27,8 @@ var app = new Vue({
 	el : '#app',
 	data : {
 		title : "",
-		content : ""
+		content : "",
+		cUser : "${sessionId}"
 	},// data
 	methods : {
 		fnGetList : function(){
@@ -46,7 +47,8 @@ var app = new Vue({
         },
 		fnAdd : function(){
             var self = this;
-            var nparmap = {title : self.title, content : self.content};
+            var nparmap = {title : self.title, content : self.content, cUser : self.cUser};
+            //cUser = 작성자 추가 
             $.ajax({
                 url : "add.dox",
                 dataType:"json",	

@@ -21,6 +21,7 @@ var app = new Vue({
 	el : '#app',
 	data : {
 		list : [],
+		status : "${sessionStatus}"
 	},// data
 	methods : {
 		fnGetList : function(){

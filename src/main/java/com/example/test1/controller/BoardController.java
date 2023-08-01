@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,9 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 	
+	@Autowired
+	HttpSession session; //세션 객체 생성
+	
 	@RequestMapping("/board/add.do") 
     public String join(Model model) throws Exception{
 
@@ -29,8 +33,11 @@ public class BoardController {
     }
 	
 	@RequestMapping("/board/list.do") 
-    public String boardList(Model model) throws Exception{
-
+    public String boardList(HttpServletRequest request,Model model) throws Exception{
+		
+		//request.setAttribute("status", session.getAttribute("sessionStatus"));
+		//request 로 값을 불러와 board-list에 값을 보내준다.
+		
         return "/board-list";
     }
 	

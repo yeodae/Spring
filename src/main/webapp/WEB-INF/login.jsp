@@ -14,7 +14,7 @@
 <div id="app">
 	<h1>로그인입니다.</h1>
 	<div><label>아이디 : <input v-model="userId"></label></div>
-	<div><label>패스워드 : <input type="password" v-model="pwd"></label></div>
+	<div><label>패스워드 : <input type="password" v-model="pwd" @keyup.enter="fnLogin"></label></div>
 	<div>
 		<button @click="fnLogin">로그인</button>
 		<button>회원가입</button>
@@ -28,7 +28,8 @@ var app = new Vue({
 	data : {
 		list : [],
 		userId : "",
-		pwd : ""
+		pwd : "",
+		status : "${sessionStatus}"
 	},// data
 	methods : {
 		fnGetList : function(){
@@ -54,8 +55,8 @@ var app = new Vue({
                 data : param, // 위 파람이름과 맞춰주어야 한다.
                 success : function(data) { 
                 	if(data.success){
-                		alert(data.message);
-                		location.href="main.do";
+                			alert(data.message);
+                				location.href="main.do";	
                 	}else{
                 		alert(data.message);
                 		//아이디가 없을 경우
