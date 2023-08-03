@@ -12,7 +12,7 @@
 </head>
 <body>
 <div id="app">
-	<h1>메인입니다..</h1>
+	<button @click="fnBoard">게시판</button>
 </div>
 </body>
 </html>
@@ -21,7 +21,6 @@ var app = new Vue({
 	el : '#app',
 	data : {
 		list : [],
-		status : "${sessionStatus}"
 	},// data
 	methods : {
 		fnGetList : function(){
@@ -36,6 +35,9 @@ var app = new Vue({
                 	self.list = data.list;
                 }
             }); 
+        },
+        fnBoard : function(){
+        	location.href = "board/list.do"
         }
 	}, // methods
 	created : function() {
