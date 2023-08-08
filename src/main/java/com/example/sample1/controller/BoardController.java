@@ -15,34 +15,36 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.sample1.model.Board;
 import com.example.sample1.service.BoardService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 @Controller
 public class BoardController {
-	
+
 	@Autowired
 	BoardService boardService;
 	
-	/*
-	 * @Autowired HttpSession session; //세션 객체 생성
-	 */	
 	@RequestMapping("/board/list.do") 
-    public String boardList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+    public String test(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
         return "/board-list";
     }
+	
+	@RequestMapping("/board/add.do") 
+    public String add(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+        return "/board-add";
+    }
+	
+	@RequestMapping("/board/edit.do") 
+    public String edit(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		request.setAttribute("map", map);
+		return "/board-add";
+    }
+	
 	@RequestMapping("/board/view.do") 
     public String view(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
-		request.setAttribute("map", map);
-        return "/board-view";
-    }
-	@RequestMapping("/board/add.do") 
-    public String boardAdd(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
-        return "/board-add";
-    }
-	@RequestMapping("/board/edit.do") 
-    public String boardEdit(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
-		request.setAttribute("map", map);
-        return "/board-add";
+        request.setAttribute("map", map);
+		return "/board-view";
     }
 	
 	@RequestMapping(value = "/board/list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -56,9 +58,9 @@ public class BoardController {
 	
 	@RequestMapping(value = "/board/view.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String view(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+	public String boardview(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = boardService.serachBoardInfo(map);
+		resultMap = boardService.searchBoardInfo(map);
 		return new Gson().toJson(resultMap);
 	}
 	
@@ -69,34 +71,52 @@ public class BoardController {
 		boardService.addBoardComment(map);
 		return new Gson().toJson(resultMap);
 	}
-	@RequestMapping(value = "/board/remove.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	
+	@RequestMapping(value = "/board/c_remove.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String remove(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+	public String c_remove(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		boardService.removeComment(map);
 		return new Gson().toJson(resultMap);
 	}
+	
 	@RequestMapping(value = "/board/add.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String boardAdd(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+	public String add(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		boardService.addBoard(map);
-		resultMap.put("message", "success");
 		return new Gson().toJson(resultMap);
 	}
+	
 	@RequestMapping(value = "/board/edit.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String edit(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		boardService.updateBoardInfo(map);
-		resultMap.put("message", "success");
+		boardService.editBoard(map);
 		return new Gson().toJson(resultMap);
 	}
-	@RequestMapping(value = "/board/delete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	
+	@RequestMapping(value = "/board/remove.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String delete(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+	public String remove(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		String json = map.get("selectItem").toString();
+		ObjectMapper mapper = new ObjectMapper();
+		List<Object> list = mapper.readValue(json, new TypeReference<List<Object>>(){});
+		map.put("list", list);
 		boardService.removeBoard(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/board/removecomment.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String removecomment(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		String json = map.get("commentList").toString();
+		ObjectMapper mapper = new ObjectMapper();
+		List<Object> list = mapper.readValue(json, new TypeReference<List<Object>>(){});
+		map.put("list", list);
+		boardService.removeCommentAdmin(map);
 		return new Gson().toJson(resultMap);
 	}
 }

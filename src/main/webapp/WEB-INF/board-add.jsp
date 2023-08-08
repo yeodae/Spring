@@ -5,8 +5,9 @@
 <head>
 <script src="../js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js"></script>
-<script src="https://unpkg.com/vue2-editor@2.3.11/dist/index.js"></script>
+	<!-- 1. vue2editor 에디터 cdn -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js"></script>
+	<script src="https://unpkg.com/vue2-editor@2.3.11/dist/index.js"></script>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
 <style>
@@ -22,7 +23,6 @@
 	</div>
 	<button v-if="no == ''" @click="fnAdd">등록</button>
 	<button v-else @click="fnEdit">수정</button>
-	<button @click="fnBack">취소</button>
 </div>
 </body>
 </html>
@@ -34,95 +34,65 @@ const VueEditor = Vue2Editor.VueEditor;
 var app = new Vue({
 	el : '#app',
 	data : {
-		userId : "${sessionId}",
-		//글수정
-		no : "${map.no}", // pk값 호출
+		uId : "${sessionId}",
+		no : "${map.no}",
 		info : {
 			title : "",
 			contents : ""
 		}
-	},
-	 // 4. 컴포넌트 추가
-     components: {VueEditor}
-	,// data
-	methods : {
-		fnGetList : function(){
-            var self = this;
-            var nparmap = {no : self.no, kind : "UPDATE"};
-            $.ajax({
-                url : "view.dox",
-                dataType:"json",	
-                type : "POST", 
-                data : nparmap,
-                success : function(data) { 
-                	self.info = data.info;
-                }
-            }); 
-        },
-        //글쓰기
-        fnAdd : function(){
+	}
+    , components: {VueEditor}
+	, methods : {
+		fnAdd : function(){
             var self = this;
             var nparmap = self.info;
-            // {title : info.title, contents : info.contents}
-            nparmap.userId = self.userId;
-            // {title : info.title, contents : info.contents, userId : self.userId}
+            nparmap.uId = self.uId;
             $.ajax({
                 url : "add.dox",
                 dataType:"json",	
                 type : "POST", 
                 data : nparmap,
                 success : function(data) { 
-                	self.list = data.list;
-                	alert("등록되었습니다!");
-                	location.href="list.do";
+                	alert("등록 완료");
+                	location.href = "list.do";
                 }
             }); 
         },
-        //글수정하기
-        fnEdit : function(){
-            var self = this;
-            var nparmap = self.info;
-            // {title : info.title, contents : info.contents}
-            nparmap.no = self.no;
-            // {title : info.title, contents : info.contents, userId : self.userId}
-            $.ajax({
+        
+        fnGetList : function(){
+			var self = this;
+			var param = {no : self.no, kind : "UPDATE"};
+			$.ajax({
+                url : "view.dox",
+                dataType:"json",	
+                type : "POST",
+                data : param,
+                success : function(data) { 
+                	self.info = data.info;
+                }
+            }); 
+		},
+		fnEdit : function(){
+			var self = this;
+			var param = self.info;
+			$.ajax({
                 url : "edit.dox",
                 dataType:"json",	
-                type : "POST", 
-                data : nparmap,
+                type : "POST",
+                data : param,
                 success : function(data) { 
-                	self.list = data.list;
-                	alert("수정되었습니다!");
-                	location.href="list.do";
+                	alert("수정되었음");
+                	location.href = "list.do";
                 }
             }); 
-        },
-        fnBack : function(){
-        	location.href="list.do";
-        },
-     // 파일 업로드
-	   /*  upload : function(){
-			var form = new FormData();
-	        form.append( "file1", $("#file1")[0].files[0] );
-	        
-	         $.ajax({
-	             url : "/upload.do"
-	           , type : "POST"
-	           , processData : false
-	           , contentType : false
-	           , data : form
-	           , success:function(response) { 
-	        	   
-	           }
-	           
-	       });
-		}  */
+		}
 	}, // methods
 	created : function() {
 		var self = this;
 		if(self.no != ""){
 			self.fnGetList();
 		}
+		
 	}// created
 });
 </script>

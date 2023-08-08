@@ -3,17 +3,18 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.sample1.mapper.BoardMapper">
-
 	<select id="selectBoardList" parameterType="hashmap" resultType="com.example.sample1.model.Board">
 		SELECT *
 		FROM BOARD B
 		LEFT JOIN (
 			SELECT COUNT(*) COMM_CNT, B_NO
 			FROM BOARD_COMMENT
+			WHERE DELYN = 'N'
 			GROUP BY B_NO
-		) C ON B.NO = C.B_NO
-		ORDER BY NO ASC
+		) C ON  B.NO = C.B_NO
+		ORDER BY NO DESC
 	</select>
+	
 	<select id="selectBoardInfo" parameterType="hashmap" resultType="com.example.sample1.model.Board">
 		SELECT *
 		FROM BOARD
@@ -35,34 +36,43 @@
 	<update id="deleteComment" parameterType="hashmap">
 		UPDATE BOARD_COMMENT
 		SET
-			DELYN = #{delyn}
+			DELYN = 'Y'
 		WHERE C_NO = #{cNo}
 	</update>
 	
-	<insert id="insertBoard" parameterType="hashmap">
-		INSERT INTO BOARD VALUES
-		(BOARD_SEQ.NEXTVAL, #{title}, #{contents}, SYSDATE,SYSDATE, #{userId}, 0,'2')
-	</insert>
-	
-	<update id="updateBoardCnt" parameterType="hashmap">
+	<update id="boardCnt" parameterType="hashmap">
 		UPDATE BOARD
 		SET
-			CNT = CNT+1
+			CNT = CNT + 1
 		WHERE NO = #{no}
 	</update>
-	
-	<delete id="deleteBoard" parameterType="hashmap">
-		DELETE FROM BOARD
-		WHERE NO = #{no}
-	</delete>
-	
-	<update id="updateBoardEdit" parameterType="hashmap">
+	<insert id="insertBoard" parameterType="hashmap">
+		INSERT INTO BOARD 
+		VALUES(BOARD_SEQ.NEXTVAL, #{title}, #{contents}, SYSDATE, SYSDATE, #{uId}, 0, 2)
+	</insert>
+	<update id="updateBoard" parameterType="hashmap">
 		UPDATE BOARD
 		SET
 			TITLE = #{title},
 			CONTENTS = #{contents},
 			UDATETIME = SYSDATE
-		WHERE BUSER = #{userId} AND NO = #{no}
+		WHERE NO = #{no}
+	</update>
+	<delete id="deleteBoard" parameterType="hashmap">
+		DELETE FROM BOARD
+		WHERE NO IN	
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	<update id="deleteCommentAdmin" parameterType="hashmap">
+		UPDATE BOARD_COMMENT
+		SET
+			DELYN = 'Y'
+		WHERE C_NO IN
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
 	</update>
 	
 </mapper>

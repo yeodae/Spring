@@ -9,7 +9,7 @@ public class User {
 	private String addr;
 	private String status;
 	private int cnt;
-	private String banyn;
+	private String banYn;
 	public String getuId() {
 		return uId;
 	}
@@ -58,10 +58,10 @@ public class User {
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
-	public String getBanyn() {
-		return banyn;
+	public String getBanYn() {
+		return banYn;
 	}
-	public void setBanyn(String banyn) {
-		this.banyn = banyn;
+	public void setBanYn(String banYn) {
+		this.banYn = banYn;
 	}
 }

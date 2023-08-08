@@ -20,30 +20,16 @@
 		WHERE U_ID = #{userId} AND PWD = #{pwd}
 	</select>
 	
-	<select id="selectUserList" parameterType="hashmap" resultType="com.example.sample1.model.User">
-		SELECT *
-		FROM TBL_USER
-		WHERE STATUS = 'U'
-	</select>
-	
 	<update id="updateUserCnt" parameterType="hashmap">
 		UPDATE TBL_USER
 		SET
-			CNT = CNT+1
+			CNT = CNT + 1
 		WHERE U_ID = #{userId}
 	</update>
-	
 	<update id="resetUserCnt" parameterType="hashmap">
 		UPDATE TBL_USER
 		SET
 			CNT = 0
-		WHERE U_ID = #{userId}
-	</update>
-	
-	<update id="updateUserBan" parameterType="hashmap">
-		UPDATE TBL_USER
-		SET
-			BANYN = #{banyn}
 		WHERE U_ID = #{userId}
 	</update>
 	
@@ -52,5 +38,4 @@
 		FROM TBL_USER
 		WHERE U_ID = #{userId}
 	</select>
-	
 </mapper>

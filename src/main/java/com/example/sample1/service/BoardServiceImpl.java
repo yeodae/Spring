@@ -11,10 +11,10 @@ import com.example.sample1.model.Board;
 
 @Service
 public class BoardServiceImpl implements BoardService{
-	
+
 	@Autowired
 	BoardMapper boardMapper;
-
+	
 	@Override
 	public List<Board> searchBoardList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -22,18 +22,17 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public HashMap<String, Object> serachBoardInfo(HashMap<String, Object> map) {
+	public HashMap<String, Object> searchBoardInfo(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		// 조회수 증가
+		if(!map.containsKey("kind")) {
+			boardMapper.boardCnt(map);
+		}
 		// 게시글 상세보기
 		resultMap.put("info", boardMapper.selectBoardInfo(map));
 		// 댓글 목록
 		resultMap.put("commentList", boardMapper.selectBoardComment(map));
-		// 조회수 증가
-		if(!map.containsKey("kind")) {
-			// 수정하기 누를시 조회수 증가 x
-			boardMapper.updateBoardCnt(map);
-		}
 		return resultMap;
 	}
 
@@ -56,16 +55,20 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
+	public int editBoard(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return boardMapper.updateBoard(map);
+	}
+
+	@Override
 	public int removeBoard(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		return boardMapper.deleteBoard(map);
 	}
 
 	@Override
-	public int updateBoardInfo(HashMap<String, Object> map) {
+	public int removeCommentAdmin(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		return boardMapper.updateBoardEdit(map);
+		return boardMapper.deleteCommentAdmin(map);
 	}
-
-	
 }

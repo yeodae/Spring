@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.sample1.mapper.ChartMapper">
+	<select id="selectCoinList" resultType="com.example.sample1.model.Chart">
+		SELECT * 
+		FROM TBL_COIN	
+	</select>
+	
+	<select id="selectDomainList" resultType="com.example.sample1.model.Chart">
+		SELECT *
+		FROM TBL_DOMAIN
+	</select>
+	
+	<select id="selectLanList" parameterType="hashmap" resultType="com.example.sample1.model.Chart">
+		SELECT *
+		FROM TBL_LANGUAGE
+		WHERE LANGUAGE = #{name}
+	</select>
+	
+	<select id="selectGazua" parameterType="hashmap" resultType="com.example.sample1.model.Chart">
+		SELECT * 
+		FROM TBL_COIN
+		WHERE C_NAME = #{cName}
+	</select>
+	
+	
+	
+	
+</mapper>
